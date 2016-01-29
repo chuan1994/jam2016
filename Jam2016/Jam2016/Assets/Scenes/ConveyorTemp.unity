@@ -232,3 +232,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1001 &1943901188
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475194, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1 &1943901189 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 121930, guid: 0186726c5dccd124b8006ecf2ac0941e, type: 2}
+  m_PrefabInternal: {fileID: 1943901188}
+--- !u!114 &1943901190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1943901189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80cc1c3ebe6f4941b5e0f4e2f804872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 5
+  tierTwo:
+  - {fileID: 169868, guid: 16fa8dc74d20bd048bdb537a87ac49e9, type: 2}
+  - {fileID: 158924, guid: 095b181dc3abbf648892b8660c2dc92c, type: 2}
+  - {fileID: 0}
+  tierThree: []
+  tierFour: []
+  difficulty: 0
