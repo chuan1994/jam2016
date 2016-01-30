@@ -8,16 +8,19 @@ public class ShelfIngredientController : MonoBehaviour {
 
     public int index;
 
-    // Use this for initialization
-    void Start () {
-        LevelManager.enableActions += EnableScript;
-        LevelManager.disableScripts += DisableScript;
-	}
+    public bool scriptEnabled;
 
+    // Use this for initialization
+    void Awake () {
+        Debug.Log("subscribe");
+        LevelManager.enableActions += EnableScript;
+        LevelManager.disableActions += DisableScript;
+	}
+    
     void OnDestroy()
     {
         LevelManager.enableActions -= EnableScript;
-        LevelManager.disableScripts -= DisableScript;
+        LevelManager.disableActions -= DisableScript;
     }
 
 	// Update is called once per frame
@@ -29,22 +32,24 @@ public class ShelfIngredientController : MonoBehaviour {
 
     void EnableScript()
     {
-        this.enabled = true;
+        scriptEnabled = true;
     }
 
     void DisableScript()
     {
-        this.enabled = false;
+        scriptEnabled = false;
     }
 
     void OnMouseDown() {
-
-        if (ShelfMouseDown != null)
+        if (scriptEnabled)
         {
-            ShelfMouseDown(transform.position);
-        }
+            if (ShelfMouseDown != null)
+            {
+                ShelfMouseDown(transform.position);
+            }
 
-        Trash();
+            Trash();
+        }
         
     }
 

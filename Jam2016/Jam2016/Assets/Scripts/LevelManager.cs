@@ -9,16 +9,23 @@ public class LevelManager : MonoBehaviour {
     public GameObject product;
 
     public delegate void disable();
-    public static event disable disableScripts;
+    public static event disable disableActions;
+    public static event disable disableIngredients;
 
-    public delegate void enableAction();
-    public static event enableAction enableActions;
+    public delegate void enable();
+    public static event enable enableActions;
+    public static event enable enableIngredients;
+
+    void Awake()
+    {
+        Subscribe();
+    }
 
 	// Use this for initialization
 	void Start () {
-        Subscribe();
+        disableAction();
 	}
-
+    
     void OnDestroy()
     {
         Unsubscribe();
@@ -32,7 +39,8 @@ public class LevelManager : MonoBehaviour {
     private void ProcessStash(Vector3 stashPosition)
     {
         product.transform.position = stashPosition;
-        disableFunction();
+        disableAction();
+        enableIngredient();
     }
 
     //Upon click of an area for product action
@@ -46,17 +54,20 @@ public class LevelManager : MonoBehaviour {
         {
 
         }
-        disableFunction();
+        disableAction();
+        enableIngredient();
     }
 
     //Upon production from two ingredients
     private void ProcessProduct(GameObject product)
     {
         this.product = product;
-        enableFunction();
+        enableAction();
+        disableIngredient();
+        product.GetComponent<ShelfIngredientController>().scriptEnabled = false;
     }
 
-    private void enableFunction()
+    private void enableAction()
     {
         if (enableActions != null)
         {
@@ -64,11 +75,27 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private void disableFunction()
+    private void disableAction()
     {
-        if (disableScripts != null)
+        if (disableActions != null)
         {
-            disableScripts();
+            Debug.Log("hae");
+            disableActions();
+        }
+    }
+
+    private void enableIngredient()
+    {
+        if (enableIngredients != null)
+        {
+            enableIngredients();
+        }
+    }
+
+    private void disableIngredient()
+    {
+        if (disableIngredients != null) {
+            disableIngredients();
         }
     }
 
@@ -76,6 +103,7 @@ public class LevelManager : MonoBehaviour {
     //event subscription and unsubscription
     private void Subscribe()
     {
+        PentagonController.PentHandler += ProcessProduct;
         ShelfIngredientController.ShelfMouseDown += ProcessStash;
         GeneralClickController.eventUponClick += ProcessClick;
     }
@@ -84,5 +112,6 @@ public class LevelManager : MonoBehaviour {
     {
         ShelfIngredientController.ShelfMouseDown -= ProcessStash;
         GeneralClickController.eventUponClick -= ProcessClick;
+        PentagonController.PentHandler -= ProcessProduct;
     }
 }

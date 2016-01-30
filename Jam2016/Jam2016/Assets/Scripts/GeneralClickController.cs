@@ -7,15 +7,15 @@ public class GeneralClickController : MonoBehaviour {
     public static event mousePressed eventUponClick;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         LevelManager.enableActions += EnableScript;
-        LevelManager.disableScripts += DisableScript;
+        LevelManager.disableActions += DisableScript;
 	}
-
+    
     void OnDestroy()
     {
         LevelManager.enableActions -= EnableScript;
-        LevelManager.disableScripts -= DisableScript;
+        LevelManager.disableActions -= DisableScript;
     }
 	
 	// Update is called once per frame
