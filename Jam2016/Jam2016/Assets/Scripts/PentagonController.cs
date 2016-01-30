@@ -57,10 +57,7 @@ public class PentagonController : MonoBehaviour
 
             if (reachedIng == 2)
             {
-
                 JoinObject(OutIngre[0]);
-
-
             }
         }
 
@@ -144,6 +141,12 @@ public class PentagonController : MonoBehaviour
     {
         GameObject g;
         g = (GameObject)Instantiate(newIngredient, new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+
+        foreach (TargetPos tp in new List<TargetPos>(IngreList))
+        {
+            Destroy(tp.go);
+        }
+
         IngreList.Clear();
         fireEvent(g);
     }
