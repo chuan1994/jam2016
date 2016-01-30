@@ -8,7 +8,6 @@ public class PentagonController : MonoBehaviour
     [System.Serializable]
     public class TargetPos
     {
-
         public GameObject go;
         public Vector3 target;
         public bool move;
@@ -20,6 +19,7 @@ public class PentagonController : MonoBehaviour
 
     public float Speed =10;
 
+    int reachedCount;
 
     public List<TargetPos> IngreList = new List<TargetPos>();
 
@@ -40,7 +40,6 @@ public class PentagonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int reachedIng = 0;
         foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
             float distance = Vector3.Distance(tp.go.transform.position, tp.target);
@@ -52,12 +51,32 @@ public class PentagonController : MonoBehaviour
             else
             {
                 tp.move = false;
-                reachedIng++;
             }
 
-            if (reachedIng == 2)
+
+            if (IngreList.Count == 2 && IngreList[1].move == false)
             {
-                JoinObject(OutIngre[0]);
+                for (int i = 0; i < IngreList.Count; i++)
+                {
+                    if (IngreList[i].go.transform.position.y < 4f)
+                    {
+                        Debug.Log("fahjfhsdk");
+                        Vector3 current = IngreList[i].go.transform.position;
+                        Vector3 target = new Vector3(current.x, 5, current.z);
+                            IngreList[i].go.transform.position = Vector3.MoveTowards(current, target, 10 * Time.deltaTime);
+                            float currentTransparency = IngreList[i].go.GetComponent<SpriteRenderer>().color.a;
+                            IngreList[i].go.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, currentTransparency - 0.1f);
+                    }
+                    else
+                    {
+                        reachedCount++;
+                    }
+                }
+
+                if (reachedCount == 2) {
+                    JoinObject(OutIngre[0]);
+                    reachedCount = 0;
+                }
             }
         }
 
@@ -77,7 +96,7 @@ public class PentagonController : MonoBehaviour
     void JarHandler(GameObject g)
     {
 
-        if (IngreList.Count < 2)
+        if (IngreList.Count < 3)
         {
             GameObject clonedIngredient;
 
@@ -143,8 +162,8 @@ public class PentagonController : MonoBehaviour
     void JoinObject(GameObject newIngredient)
     {
         GameObject g;
-        g = (GameObject)Instantiate(newIngredient, new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-        Debug.Log(g);
+        g = (GameObject)Instantiate(newIngredient, new Vector3(0f, 4.5f, -5f), Quaternion.Euler(new Vector3(10f, 0f, 0f)));
+        g.transform.localScale = new Vector3(0.3f, 0.3f, 0f);
         foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
             Destroy(tp.go);
