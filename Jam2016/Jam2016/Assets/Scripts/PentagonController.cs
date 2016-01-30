@@ -22,7 +22,7 @@ public class PentagonController : MonoBehaviour
     int reachedCount;
 
     public List<TargetPos> IngreList = new List<TargetPos>();
-
+    List<GameObject> SendObjects = new List<GameObject>();
     public List<GameObject> OutIngre;
 
     public GameObject Ingredient;
@@ -60,12 +60,11 @@ public class PentagonController : MonoBehaviour
                 {
                     if (IngreList[i].go.transform.position.y < 4f)
                     {
-                        Debug.Log("fahjfhsdk");
                         Vector3 current = IngreList[i].go.transform.position;
                         Vector3 target = new Vector3(current.x, 5, current.z);
-                            IngreList[i].go.transform.position = Vector3.MoveTowards(current, target, 10 * Time.deltaTime);
-                            float currentTransparency = IngreList[i].go.GetComponent<SpriteRenderer>().color.a;
-                            IngreList[i].go.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, currentTransparency - 0.1f);
+                        IngreList[i].go.transform.position = Vector3.MoveTowards(current, target, 10 * Time.deltaTime);
+                        float currentTransparency = IngreList[i].go.GetComponent<SpriteRenderer>().color.a;
+                        IngreList[i].go.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, currentTransparency - 0.1f);
                     }
                     else
                     {
@@ -74,15 +73,13 @@ public class PentagonController : MonoBehaviour
                 }
 
                 if (reachedCount == 2) {
-                    JoinObject(OutIngre[0]);
+                    int OutputID = CombinationCheck(IngreList);
+                    JoinObject(OutIngre[OutputID - 3]);
+                    SendObjects.Clear();
                     reachedCount = 0;
                 }
             }
         }
-
-
-
-
     }
 
     void fireEvent(GameObject g)
@@ -96,18 +93,16 @@ public class PentagonController : MonoBehaviour
     void JarHandler(GameObject g)
     {
 
-        if (IngreList.Count < 3)
+        if (IngreList.Count < 2)
         {
             GameObject clonedIngredient;
 
             if (g.GetComponent<BaseIngredientController>().id >= 0 && g.GetComponent<BaseIngredientController>().id < 3)
             {
                 clonedIngredient = Instantiate(g, g.transform.position, g.transform.rotation)as GameObject;
-
             }
             else
             {
-
                 clonedIngredient = g;
             }
             //Destroying so once selected as ingredient, cannot be clicked
@@ -143,20 +138,15 @@ public class PentagonController : MonoBehaviour
         IngredientController.JarHandler -= JarHandler;
     }
 
-    void CombinationCheck(List<GameObject> i)
+    private int CombinationCheck(List<TargetPos> t)
     {
-        if (i[0].name == "Eyeball")
+        for (int i = 0; i < t.Count; i++)
         {
-            if (i[1].name == "Eyeball")
-            {
-                if (PentHandler != null)
-                {
-                    PentHandler(OutIngre[0]);
-                    Instantiate(OutIngre[0], new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-                }
-            }
-
+            SendObjects.Add(t[i].go);
         }
+
+        int result = CombinationLibrary.GetCombinationResult(SendObjects);
+        return result;
     }
 
     void JoinObject(GameObject newIngredient)
