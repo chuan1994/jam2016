@@ -40,7 +40,6 @@ public class PentagonController : MonoBehaviour {
             }
             else
             {
-                Instantiate(Ingredient, OriginalPos, Quaternion.Euler(new Vector3(0, 0, 0)));
                 move = false;
             }
         }
@@ -66,10 +65,16 @@ public class PentagonController : MonoBehaviour {
 
     void JarHandler(GameObject g)
     {
-        
-        IngreList.Add(g);
-        Ingredient = g;
-        Debug.Log(Ingredient);
+        if (g.GetComponent<BaseIngredientController>().id > 0 && g.GetComponent<BaseIngredientController>().id < 3)
+        {
+            Ingredient = Instantiate(g);
+
+        }
+        else {
+            Ingredient = g;
+        }
+        Ingredient = Instantiate(g);
+        IngreList.Add(Ingredient);
         OriginalPos = Ingredient.transform.position;
 
         if (IngreList.Count == 2)

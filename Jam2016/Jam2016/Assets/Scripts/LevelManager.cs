@@ -8,10 +8,6 @@ public class LevelManager : MonoBehaviour {
 
     public GameObject product;
 
-    public delegate void disable();
-    public static event disable disableActions;
-    public static event disable disableIngredients;
-
     public delegate void enable();
     public static event enable enableActions;
     public static event enable enableIngredients;
@@ -23,7 +19,7 @@ public class LevelManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        disableAction();
+        enableIngredient();
 	}
     
     void OnDestroy()
@@ -39,7 +35,6 @@ public class LevelManager : MonoBehaviour {
     private void ProcessStash(Vector3 stashPosition)
     {
         product.transform.position = stashPosition;
-        disableAction();
         enableIngredient();
     }
 
@@ -54,17 +49,15 @@ public class LevelManager : MonoBehaviour {
         {
 
         }
-        disableAction();
         enableIngredient();
     }
 
     //Upon production from two ingredients
     private void ProcessProduct(GameObject product)
     {
-        this.product = product;
         enableAction();
-        disableIngredient();
-        product.GetComponent<ShelfIngredientController>().scriptEnabled = false;
+        this.product = product;
+        Destroy(this.product.GetComponent<ShelfIngredientController>());
     }
 
     private void enableAction()
@@ -75,27 +68,11 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private void disableAction()
-    {
-        if (disableActions != null)
-        {
-            Debug.Log("hae");
-            disableActions();
-        }
-    }
-
     private void enableIngredient()
     {
         if (enableIngredients != null)
         {
             enableIngredients();
-        }
-    }
-
-    private void disableIngredient()
-    {
-        if (disableIngredients != null) {
-            disableIngredients();
         }
     }
 
