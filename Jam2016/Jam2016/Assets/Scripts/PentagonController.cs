@@ -88,6 +88,7 @@ public class PentagonController : MonoBehaviour
             }
             else
             {
+
                 clonedIngredient = g;
             }
             TargetPos tp = new TargetPos();
@@ -98,7 +99,6 @@ public class PentagonController : MonoBehaviour
             if (IngreList.Count == 0)
             {
                 tp.target = new Vector3(-1.5f, 2.8f, -5f);
-
             }
             else
             {
