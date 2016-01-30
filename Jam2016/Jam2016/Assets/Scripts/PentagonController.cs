@@ -19,6 +19,9 @@ public class PentagonController : MonoBehaviour {
     public GameObject Ingredient;
     Vector3 OriginalPos;
 
+    [SerializeField]
+    Vector3 IngredientPos;
+
     private bool move;
 
 	// Use this for initialization
@@ -30,20 +33,16 @@ public class PentagonController : MonoBehaviour {
 	void Update () {
         if (move)
         {
-            if (Ingredient.transform.position != transform.position)
+            if (Ingredient.transform.position != IngredientPos)
             {
                 float step = Speed * Time.deltaTime;
-                Ingredient.transform.position = Vector3.MoveTowards(Ingredient.transform.position, transform.position, step);
+                Ingredient.transform.position = Vector3.MoveTowards(Ingredient.transform.position, IngredientPos, step);
             }
             else
             {
                 Instantiate(Ingredient, OriginalPos, Quaternion.Euler(new Vector3(0, 0, 0)));
                 move = false;
             }
-        } 
-        else
-        {
-            //Destroy(Ingredient);
         }
 
         if (IngreList.Count == 2)
@@ -52,6 +51,10 @@ public class PentagonController : MonoBehaviour {
             if (!move)
             {
                 g = (GameObject)Instantiate(OutIngre[0], new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+                for (int i = IngreList.Count - 1; i >= 0; i--)
+                {
+                    Destroy(IngreList[i]);
+                }
                 IngreList = new List<GameObject>();
                 fireEvent(g);
             }
@@ -75,6 +78,16 @@ public class PentagonController : MonoBehaviour {
         Ingredient = g;
         Debug.Log(Ingredient);
         OriginalPos = Ingredient.transform.position;
+
+        if (IngreList.Count == 2)
+        {
+            IngredientPos = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            IngredientPos = transform.position;
+        }
+
         move = true;
     }
 
