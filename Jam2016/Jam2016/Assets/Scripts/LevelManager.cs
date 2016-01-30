@@ -51,9 +51,10 @@ public class LevelManager : MonoBehaviour {
         yield return new WaitForSeconds(1.8f);
         conveyController.GetComponent<ConveyController>().GameStart();
         timer.GetComponent<TimeController>().time_remaining = 120;
+        timer.GetComponent<TimeController>().gameOver = false;
         timer.SetActive(true);
         while (timer.activeSelf) {
-            yield return StartCoroutine("increaseLevel");
+            yield return StartCoroutine("increasedLevel");
         }
     }
     
@@ -128,9 +129,11 @@ public class LevelManager : MonoBehaviour {
     void targetReached(GameObject go) {
         if (go.GetComponent<SpriteRenderer>().color.a != 1f)
         {
+            Destroy(go);
             timer.GetComponent<TimeController>().badMove();
         }
         else {
+            Destroy(go);
             SCORE++;
             timer.GetComponent<TimeController>().goodMove(SCORE);
         }
