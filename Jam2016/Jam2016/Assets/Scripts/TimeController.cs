@@ -26,15 +26,14 @@ public class TimeController : MonoBehaviour {
         if (time_remaining > 0)
         {
             TimeSpan t = TimeSpan.FromSeconds(time_remaining);
-            answer = string.Format("{0:D2}:{1:D2}:{2:D2}",
+            answer = string.Format("{0:D2}:{1:D2}",
                             t.Minutes,
-                            t.Seconds,
-                            t.Milliseconds);
+                            t.Seconds);
         }
         else
         {
             time_remaining = 0;
-            answer = "Time's Up";
+            answer = "00:00";
         }
 
         
