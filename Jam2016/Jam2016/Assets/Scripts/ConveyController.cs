@@ -96,6 +96,8 @@ public class ConveyController : MonoBehaviour {
         int pos = Random.Range(0, currentGen.Count);
 
         GameObject go = Instantiate(currentGen[pos]);
+        go.GetComponent<BaseIngredientController>().conveyModeOn(difficulty);
+        go.transform.position = this.transform.position;
 
         yield return new WaitForSeconds(waitTime);
     }
@@ -107,7 +109,4 @@ public class ConveyController : MonoBehaviour {
 
         newGenList();
     }
-
-
-
 }

@@ -76,6 +76,20 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    private void TargetClicked(GameObject target) {
+        if (target.GetComponent<BaseIngredientController>().id == product.GetComponent<BaseIngredientController>().id)
+        {
+            Vector3 movePoint = target.transform.position;
+            Destroy(target);
+            product.transform.position = movePoint;
+            product.GetComponent<BaseIngredientController>().conveyModeOn(5);
+            product.GetComponent<Collider2D>().enabled = false;
+        } else
+        {
+            Destroy(product);
+        }
+        enableIngredient();
+    }
 
     //event subscription and unsubscription
     private void Subscribe()
@@ -83,6 +97,7 @@ public class LevelManager : MonoBehaviour {
         PentagonController.PentHandler += ProcessProduct;
         ShelfIngredientController.ShelfMouseDown += ProcessStash;
         GeneralClickController.eventUponClick += ProcessClick;
+        ConveyEvent.mousePressedEvent += TargetClicked;
     }
 
     private void Unsubscribe()
@@ -90,5 +105,6 @@ public class LevelManager : MonoBehaviour {
         ShelfIngredientController.ShelfMouseDown -= ProcessStash;
         GeneralClickController.eventUponClick -= ProcessClick;
         PentagonController.PentHandler -= ProcessProduct;
+        ConveyEvent.mousePressedEvent -= TargetClicked;
     }
 }

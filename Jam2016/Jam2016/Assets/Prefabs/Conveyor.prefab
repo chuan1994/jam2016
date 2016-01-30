@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 475194}
+  - 114: {fileID: 11413568}
   m_Layer: 0
   m_Name: Conveyor
   m_TagString: Untagged
@@ -27,6 +28,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11413568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 121930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80cc1c3ebe6f4941b5e0f4e2f804872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 0
+  tierTwo: []
+  tierThree: []
+  tierFour: []
+  produce: 0
+  difficulty: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
