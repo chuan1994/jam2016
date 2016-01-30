@@ -3,6 +3,8 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour {
 
+    int SCORE;
+
     [SerializeField]
     GameObject conveyController;
     [SerializeField]
@@ -123,6 +125,17 @@ public class LevelManager : MonoBehaviour {
         enableIngredient();
     }
 
+    void targetReached(GameObject go) {
+        if (go.GetComponent<SpriteRenderer>().color.a != 1f)
+        {
+            timer.GetComponent<TimeController>().badMove();
+        }
+        else {
+            timer.GetComponent<TimeController>().goodMove();
+            SCORE++;
+        }
+    }
+
     //event subscription and unsubscription
     private void Subscribe()
     {
@@ -130,6 +143,7 @@ public class LevelManager : MonoBehaviour {
         ShelfIngredientController.ShelfMouseDown += ProcessStash;
         GeneralClickController.eventUponClick += ProcessClick;
         ConveyEvent.mousePressedEvent += TargetClicked;
+        BaseIngredientController.reached += targetReached;
     }
 
     private void Unsubscribe()
@@ -138,5 +152,7 @@ public class LevelManager : MonoBehaviour {
         GeneralClickController.eventUponClick -= ProcessClick;
         PentagonController.PentHandler -= ProcessProduct;
         ConveyEvent.mousePressedEvent -= TargetClicked;
+        BaseIngredientController.reached -= targetReached;
+
     }
 }

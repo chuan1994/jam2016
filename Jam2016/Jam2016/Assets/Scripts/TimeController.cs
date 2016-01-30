@@ -41,9 +41,13 @@ public class TimeController : MonoBehaviour {
         {
             textScript.text = answer;
         }
-
-
     }
 
+    public void goodMove() {
+        time_remaining = time_remaining + 5;
+    }
 
+    public void badMove() {
+        time_remaining = time_remaining - 10;
+    }
 }
