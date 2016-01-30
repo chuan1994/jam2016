@@ -47,16 +47,9 @@ public class PentagonController : MonoBehaviour {
 
         if (IngreList.Count == 2)
         {
-            GameObject g;
             if (!move)
             {
-                g = (GameObject)Instantiate(OutIngre[0], new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-                for (int i = IngreList.Count - 1; i >= 0; i--)
-                {
-                    Destroy(IngreList[i]);
-                }
-                IngreList = new List<GameObject>();
-                fireEvent(g);
+                JoinObject(OutIngre[0]);
             }
             
         }
@@ -114,5 +107,17 @@ public class PentagonController : MonoBehaviour {
             }
             
         }
+    }
+
+    void JoinObject(GameObject newIngredient)
+    {
+        GameObject g;
+        g = (GameObject)Instantiate(newIngredient, new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+        for (int i = IngreList.Count - 1; i >= 0; i--)
+        {
+            Destroy(IngreList[i]);
+        }
+        IngreList = new List<GameObject>();
+        fireEvent(g);
     }
 }
