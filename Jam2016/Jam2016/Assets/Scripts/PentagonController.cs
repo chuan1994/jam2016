@@ -2,56 +2,67 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PentagonController : MonoBehaviour {
+public class PentagonController : MonoBehaviour
+{
+
+    [System.Serializable]
+    public class TargetPos
+    {
+
+        public GameObject go;
+        public Vector3 target;
+        public bool move;
+    }
 
     public delegate void PentagonHandler(GameObject g);
     public static event PentagonHandler PentHandler;
 
-    [SerializeField]
-    float Speed;
 
-    [SerializeField]
-    List<GameObject> IngreList;
+    public float Speed;
 
-    [SerializeField]
-    List<GameObject> OutIngre;
+
+    public List<TargetPos> IngreList = new List<TargetPos>();
+
+    public List<GameObject> OutIngre;
 
     public GameObject Ingredient;
-    Vector3 OriginalPos;
 
-    [SerializeField]
     Vector3 IngredientPos;
 
     private bool move;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         move = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (move)
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        int reachedIng = 0;
+        foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
-            if (Ingredient.transform.position != IngredientPos)
+
+            if (tp.go.transform.position != tp.target)
             {
                 float step = Speed * Time.deltaTime;
-                Ingredient.transform.position = Vector3.MoveTowards(Ingredient.transform.position, IngredientPos, step);
+                tp.go.transform.position = Vector3.MoveTowards(tp.go.transform.position, tp.target, step);
             }
             else
             {
-                move = false;
+                tp.move = false;
+                reachedIng++;
             }
-        }
 
-        if (IngreList.Count == 2)
-        {
-            if (!move)
+            if (reachedIng == 2)
             {
                 JoinObject(OutIngre[0]);
             }
-            
         }
+
+
+
 
     }
 
@@ -62,32 +73,42 @@ public class PentagonController : MonoBehaviour {
             PentHandler(g);
         }
     }
-
+    int index = 0;
     void JarHandler(GameObject g)
     {
-        if (g.GetComponent<BaseIngredientController>().id > 0 && g.GetComponent<BaseIngredientController>().id < 3)
-        {
-            Ingredient = Instantiate(g);
 
-        }
-        else {
-            Ingredient = g;
-        }
-        Ingredient = Instantiate(g);
-        IngreList.Add(Ingredient);
-        OriginalPos = Ingredient.transform.position;
-
-        if (IngreList.Count == 2)
+        if (IngreList.Count < 2)
         {
-            IngredientPos = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
-        }
-        else
-        {
-            IngredientPos = transform.position;
-        }
+            GameObject clonedIngredient;
 
-        move = true;
-        Destroy(Ingredient.GetComponent<IngredientController>());
+            if (g.GetComponent<BaseIngredientController>().id > 0 && g.GetComponent<BaseIngredientController>().id < 3)
+            {
+                clonedIngredient = Instantiate(g);
+
+            }
+            else
+            {
+                clonedIngredient = g;
+            }
+            clonedIngredient = Instantiate(g);
+            clonedIngredient.name += index++;
+            TargetPos tp = new TargetPos();
+            tp.go = clonedIngredient;
+
+            if (IngreList.Count == 0)
+            {
+                tp.target = transform.position;
+
+            }
+            else
+            {
+                tp.target = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
+            }
+
+            tp.move = true;
+            IngreList.Add(tp);
+            //Destroy(Ingredient.GetComponent<IngredientController>());
+        }
     }
 
     void OnEnable()
@@ -104,14 +125,15 @@ public class PentagonController : MonoBehaviour {
     {
         if (i[0].name == "Eyeball")
         {
-            if (i[1].name == "Eyeball") {
+            if (i[1].name == "Eyeball")
+            {
                 if (PentHandler != null)
                 {
                     PentHandler(OutIngre[0]);
                     Instantiate(OutIngre[0], new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
                 }
             }
-            
+
         }
     }
 
@@ -119,11 +141,14 @@ public class PentagonController : MonoBehaviour {
     {
         GameObject g;
         g = (GameObject)Instantiate(newIngredient, new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-        for (int i = IngreList.Count - 1; i >= 0; i--)
+
+        foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
-            Destroy(IngreList[i]);
+            Destroy(tp.go);
         }
-        IngreList = new List<GameObject>();
+
+        IngreList.Clear();
         fireEvent(g);
     }
+
 }
