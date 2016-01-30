@@ -74,7 +74,11 @@ public class PentagonController : MonoBehaviour
 
                 if (reachedCount == 2) {
                     int OutputID = CombinationCheck(IngreList);
-                    JoinObject(OutIngre[OutputID - 3]);
+                    Debug.Log(OutputID);
+                    if (OutputID != 404)
+                    {
+                        JoinObject(OutIngre[OutputID - 3]);
+                    }
                     SendObjects.Clear();
                     reachedCount = 0;
                 }
