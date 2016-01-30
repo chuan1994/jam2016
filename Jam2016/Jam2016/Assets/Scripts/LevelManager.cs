@@ -131,8 +131,8 @@ public class LevelManager : MonoBehaviour {
             timer.GetComponent<TimeController>().badMove();
         }
         else {
-            timer.GetComponent<TimeController>().goodMove();
             SCORE++;
+            timer.GetComponent<TimeController>().goodMove(SCORE);
         }
     }
 
