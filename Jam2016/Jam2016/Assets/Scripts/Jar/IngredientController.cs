@@ -12,7 +12,9 @@ public class IngredientController : MonoBehaviour {
     {
             if (JarHandler != null)
             {
-                JarHandler(this.gameObject);
+                if (GetComponent<ShelfIngredientController>() == null) {
+                    JarHandler(this.gameObject);
+                }
             }
     }
 }

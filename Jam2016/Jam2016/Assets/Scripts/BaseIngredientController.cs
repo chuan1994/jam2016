@@ -11,7 +11,7 @@ public class BaseIngredientController : MonoBehaviour {
         LevelManager.enableIngredients += createIngredientScript;
 	}
 
-    void Destroy()
+    void OnDestroy()
     {
         LevelManager.enableActions -= createActionScript;
         LevelManager.enableIngredients -= createIngredientScript;
@@ -32,7 +32,7 @@ public class BaseIngredientController : MonoBehaviour {
         {
             Destroy(gameObject.GetComponent<IngredientController>());
         }
-        if (id > 2)
+        if (id > 2 || id == -1)
         {
             gameObject.AddComponent<ShelfIngredientController>();
         }
