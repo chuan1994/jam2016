@@ -3,6 +3,13 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour {
 
+    int SCORE;
+
+    [SerializeField]
+    GameObject conveyController;
+    [SerializeField]
+    GameObject timer;
+
     GameObject mixIngredient1;
     GameObject mixIngredient2;
 
@@ -34,6 +41,30 @@ public class LevelManager : MonoBehaviour {
             Time.timeScale = 0f;
         }*/
 	}
+
+    public void startLevel() {
+        StartCoroutine("initDelay");
+    }
+
+    IEnumerator initDelay()
+    {
+        yield return new WaitForSeconds(1.8f);
+        conveyController.GetComponent<ConveyController>().GameStart();
+        timer.GetComponent<TimeController>().time_remaining = 120;
+        timer.SetActive(true);
+        while (timer.activeSelf) {
+            yield return StartCoroutine("increaseLevel");
+        }
+    }
+    
+    IEnumerator increasedLevel()
+    {
+        yield return new WaitForSeconds(15);
+        conveyController.GetComponent<ConveyController>().IncreaseDifficulty();
+    }
+
+
+
 
     private void ProcessStash(Vector3 stashPosition)
     {
@@ -94,6 +125,17 @@ public class LevelManager : MonoBehaviour {
         enableIngredient();
     }
 
+    void targetReached(GameObject go) {
+        if (go.GetComponent<SpriteRenderer>().color.a != 1f)
+        {
+            timer.GetComponent<TimeController>().badMove();
+        }
+        else {
+            SCORE++;
+            timer.GetComponent<TimeController>().goodMove(SCORE);
+        }
+    }
+
     //event subscription and unsubscription
     private void Subscribe()
     {
@@ -101,6 +143,7 @@ public class LevelManager : MonoBehaviour {
         ShelfIngredientController.ShelfMouseDown += ProcessStash;
         GeneralClickController.eventUponClick += ProcessClick;
         ConveyEvent.mousePressedEvent += TargetClicked;
+        BaseIngredientController.reached += targetReached;
     }
 
     private void Unsubscribe()
@@ -109,5 +152,7 @@ public class LevelManager : MonoBehaviour {
         GeneralClickController.eventUponClick -= ProcessClick;
         PentagonController.PentHandler -= ProcessProduct;
         ConveyEvent.mousePressedEvent -= TargetClicked;
+        BaseIngredientController.reached -= targetReached;
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BaseIngredientController : MonoBehaviour {
 
@@ -14,6 +15,9 @@ public class BaseIngredientController : MonoBehaviour {
 
     [SerializeField]
     Vector3 conveyTarget;
+
+    public delegate void targetReached(GameObject go);
+    public static event targetReached reached;
 
 	// Use this for initialization
 	void Awake () {
@@ -37,6 +41,12 @@ public class BaseIngredientController : MonoBehaviour {
 	void Update () {
         if (conveyMove) {
             this.transform.position = Vector3.MoveTowards(this.transform.position, conveyTarget, Time.deltaTime * speed);
+        }
+
+        if (this.transform.position == conveyTarget) {
+            if (reached != null) {
+                reached(this.gameObject);
+            }
         }
 	}
 
@@ -78,9 +88,9 @@ public class BaseIngredientController : MonoBehaviour {
         }
     }
 
-    public void conveyModeOn(int difficulty)
+    public void conveyModeOn(float speedSet)
     {
-        speed = difficulty;
+        speed = speedSet;
         conveyMode = true;
         conveyMove = true;
         if (GetComponent<ShelfIngredientController>() != null)

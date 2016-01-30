@@ -6,8 +6,9 @@ using System;
 public class TimeController : MonoBehaviour {
 
     [SerializeField]
-    float time_remaining;
+    public float time_remaining;
 
+    int score;
     Text textScript;
 
     int minutes;
@@ -41,7 +42,14 @@ public class TimeController : MonoBehaviour {
         {
             textScript.text = answer;
         }
+    }
 
+    public void goodMove(int scores) {
+        time_remaining = time_remaining + 5;
+        score = scores;
+    }
 
+    public void badMove() {
+        time_remaining = time_remaining - 10;
     }
 }
