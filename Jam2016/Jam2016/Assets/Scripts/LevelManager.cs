@@ -8,10 +8,6 @@ public class LevelManager : MonoBehaviour {
 
     public GameObject product;
 
-    public delegate void disable();
-    public static event disable disableActions;
-    public static event disable disableIngredients;
-
     public delegate void enable();
     public static event enable enableActions;
     public static event enable enableIngredients;
@@ -23,7 +19,7 @@ public class LevelManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        disableAction();
+        enableIngredient();
 	}
     
     void OnDestroy()
@@ -39,7 +35,6 @@ public class LevelManager : MonoBehaviour {
     private void ProcessStash(Vector3 stashPosition)
     {
         product.transform.position = stashPosition;
-        disableAction();
         enableIngredient();
     }
 
@@ -54,17 +49,15 @@ public class LevelManager : MonoBehaviour {
         {
 
         }
-        disableAction();
         enableIngredient();
     }
 
     //Upon production from two ingredients
     private void ProcessProduct(GameObject product)
     {
-        this.product = product;
         enableAction();
-        disableIngredient();
-        product.GetComponent<ShelfIngredientController>().scriptEnabled = false;
+        this.product = product;
+        Destroy(this.product.GetComponent<ShelfIngredientController>());
     }
 
     private void enableAction()
@@ -72,15 +65,6 @@ public class LevelManager : MonoBehaviour {
         if (enableActions != null)
         {
             enableActions();
-        }
-    }
-
-    private void disableAction()
-    {
-        if (disableActions != null)
-        {
-            Debug.Log("hae");
-            disableActions();
         }
     }
 
@@ -92,13 +76,20 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private void disableIngredient()
-    {
-        if (disableIngredients != null) {
-            disableIngredients();
+    private void TargetClicked(GameObject target) {
+        if (target.GetComponent<BaseIngredientController>().id == product.GetComponent<BaseIngredientController>().id)
+        {
+            Vector3 movePoint = target.transform.position;
+            Destroy(target);
+            product.transform.position = movePoint;
+            product.GetComponent<BaseIngredientController>().conveyModeOn(5);
+            product.GetComponent<Collider2D>().enabled = false;
+        } else
+        {
+            Destroy(product);
         }
+        enableIngredient();
     }
-
 
     //event subscription and unsubscription
     private void Subscribe()
@@ -106,6 +97,7 @@ public class LevelManager : MonoBehaviour {
         PentagonController.PentHandler += ProcessProduct;
         ShelfIngredientController.ShelfMouseDown += ProcessStash;
         GeneralClickController.eventUponClick += ProcessClick;
+        ConveyEvent.mousePressedEvent += TargetClicked;
     }
 
     private void Unsubscribe()
@@ -113,5 +105,6 @@ public class LevelManager : MonoBehaviour {
         ShelfIngredientController.ShelfMouseDown -= ProcessStash;
         GeneralClickController.eventUponClick -= ProcessClick;
         PentagonController.PentHandler -= ProcessProduct;
+        ConveyEvent.mousePressedEvent -= TargetClicked;
     }
 }

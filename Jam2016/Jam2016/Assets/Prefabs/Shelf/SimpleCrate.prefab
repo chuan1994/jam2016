@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 446678}
   - 212: {fileID: 21271220}
-  - 114: {fileID: 11408126}
   - 61: {fileID: 6138434}
+  - 114: {fileID: 11436670}
   m_Layer: 0
   m_Name: SimpleCrate
   m_TagString: Untagged
@@ -44,7 +44,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 1.02, y: 1.02}
---- !u!114 &11408126
+--- !u!114 &11436670
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -52,11 +52,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 107842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9246af4e232bca64b981e0fca4b896e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ae86f59fe8a98f458d610d35f129fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 0
-  scriptEnabled: 0
+  id: -1
 --- !u!212 &21271220
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -101,6 +100,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: id
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
