@@ -8,7 +8,6 @@ public class PentagonController : MonoBehaviour
     [System.Serializable]
     public class TargetPos
     {
-
         public GameObject go;
         public Vector3 target;
         public bool move;
@@ -20,9 +19,10 @@ public class PentagonController : MonoBehaviour
 
     public float Speed =10;
 
+    int reachedCount;
 
     public List<TargetPos> IngreList = new List<TargetPos>();
-
+    List<GameObject> SendObjects = new List<GameObject>();
     public List<GameObject> OutIngre;
 
     public GameObject Ingredient;
@@ -40,7 +40,6 @@ public class PentagonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int reachedIng = 0;
         foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
             float distance = Vector3.Distance(tp.go.transform.position, tp.target);
@@ -52,18 +51,35 @@ public class PentagonController : MonoBehaviour
             else
             {
                 tp.move = false;
-                reachedIng++;
             }
 
-            if (reachedIng == 2)
+
+            if (IngreList.Count == 2 && IngreList[1].move == false)
             {
-                JoinObject(OutIngre[0]);
+                for (int i = 0; i < IngreList.Count; i++)
+                {
+                    if (IngreList[i].go.transform.position.y < 4f)
+                    {
+                        Vector3 current = IngreList[i].go.transform.position;
+                        Vector3 target = new Vector3(current.x, 5, current.z);
+                        IngreList[i].go.transform.position = Vector3.MoveTowards(current, target, 10 * Time.deltaTime);
+                        float currentTransparency = IngreList[i].go.GetComponent<SpriteRenderer>().color.a;
+                        IngreList[i].go.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, currentTransparency - 0.1f);
+                    }
+                    else
+                    {
+                        reachedCount++;
+                    }
+                }
+
+                if (reachedCount == 2) {
+                    int OutputID = CombinationCheck(IngreList);
+                    JoinObject(OutIngre[OutputID - 3]);
+                    SendObjects.Clear();
+                    reachedCount = 0;
+                }
             }
         }
-
-
-
-
     }
 
     void fireEvent(GameObject g)
@@ -84,11 +100,9 @@ public class PentagonController : MonoBehaviour
             if (g.GetComponent<BaseIngredientController>().id >= 0 && g.GetComponent<BaseIngredientController>().id < 3)
             {
                 clonedIngredient = Instantiate(g, g.transform.position, g.transform.rotation)as GameObject;
-
             }
             else
             {
-
                 clonedIngredient = g;
             }
             //Destroying so once selected as ingredient, cannot be clicked
@@ -124,26 +138,22 @@ public class PentagonController : MonoBehaviour
         IngredientController.JarHandler -= JarHandler;
     }
 
-    void CombinationCheck(List<GameObject> i)
+    private int CombinationCheck(List<TargetPos> t)
     {
-        if (i[0].name == "Eyeball")
+        for (int i = 0; i < t.Count; i++)
         {
-            if (i[1].name == "Eyeball")
-            {
-                if (PentHandler != null)
-                {
-                    PentHandler(OutIngre[0]);
-                    Instantiate(OutIngre[0], new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-                }
-            }
-
+            SendObjects.Add(t[i].go);
         }
+
+        int result = CombinationLibrary.GetCombinationResult(SendObjects);
+        return result;
     }
 
     void JoinObject(GameObject newIngredient)
     {
         GameObject g;
-        g = (GameObject)Instantiate(newIngredient, new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+        g = (GameObject)Instantiate(newIngredient, new Vector3(0f, 4.5f, -5f), Quaternion.Euler(new Vector3(10f, 0f, 0f)));
+        g.transform.localScale = new Vector3(0.3f, 0.3f, 0f);
         foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
             Destroy(tp.go);
