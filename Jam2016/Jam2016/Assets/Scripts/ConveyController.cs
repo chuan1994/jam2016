@@ -27,8 +27,8 @@ public class ConveyController : MonoBehaviour {
     int difficulty;
 
 
-	// Use this for initialization
-	void Start () {
+	//Changed to designate when to start -Andy
+	public void GameStart () {
         newGenList();
         produce = true;
         StartCoroutine("Wrapper");
@@ -88,6 +88,9 @@ public class ConveyController : MonoBehaviour {
     }
 
     IEnumerator Wrapper() {
+        //editted code - andy
+        yield return new WaitForSeconds(1.8f);
+        //---------------------
         while (produce) {
             yield return StartCoroutine("GenerateNext");
         }

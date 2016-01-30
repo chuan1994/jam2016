@@ -91,6 +91,9 @@ public class PentagonController : MonoBehaviour
 
                 clonedIngredient = g;
             }
+            //Destroying so once selected as ingredient, cannot be clicked
+            Destroy(clonedIngredient.GetComponent<IngredientController>());
+            //----------- Andy
             TargetPos tp = new TargetPos();
             tp.go = clonedIngredient;
             tp.go.transform.rotation = Quaternion.Euler(10f, 0f, 0f);

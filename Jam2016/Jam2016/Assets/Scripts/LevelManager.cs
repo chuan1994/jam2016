@@ -29,7 +29,10 @@ public class LevelManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+        /*if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0f;
+        }*/
 	}
 
     private void ProcessStash(Vector3 stashPosition)
