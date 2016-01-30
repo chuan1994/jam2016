@@ -50,6 +50,15 @@ public class LevelManager : MonoBehaviour {
         conveyController.GetComponent<ConveyController>().GameStart();
         timer.GetComponent<TimeController>().time_remaining = 120;
         timer.SetActive(true);
+        while (timer.activeSelf) {
+            yield return StartCoroutine("increaseLevel");
+        }
+    }
+    
+    IEnumerator increasedLevel()
+    {
+        yield return new WaitForSeconds(15);
+        conveyController.GetComponent<ConveyController>().IncreaseDifficulty();
     }
 
 

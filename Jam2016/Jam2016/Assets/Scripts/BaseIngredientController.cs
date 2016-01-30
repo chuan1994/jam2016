@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BaseIngredientController : MonoBehaviour {
 
@@ -78,9 +79,9 @@ public class BaseIngredientController : MonoBehaviour {
         }
     }
 
-    public void conveyModeOn(int difficulty)
+    public void conveyModeOn(float speedSet)
     {
-        speed = difficulty;
+        speed = speedSet;
         conveyMode = true;
         conveyMove = true;
         if (GetComponent<ShelfIngredientController>() != null)

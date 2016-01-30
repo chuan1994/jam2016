@@ -51,6 +51,17 @@ public class ConveyController : MonoBehaviour {
         }
     }
 
+    public void IncreaseDifficulty() {
+        difficulty++;
+        if (difficulty % 2 == 0) {
+            if (waitTime > 4) {
+                waitTime -= 0.5f;
+            }
+        }
+
+        newGenList();
+    }
+
     //===========================================================================================
 
     void newGenList(){
@@ -99,19 +110,11 @@ public class ConveyController : MonoBehaviour {
         int pos = Random.Range(0, currentGen.Count);
 
         GameObject go = Instantiate(currentGen[pos]);
-        go.GetComponent<BaseIngredientController>().conveyModeOn(difficulty);
+        go.GetComponent<BaseIngredientController>().conveyModeOn(0.5f);
         go.transform.position = spawnPoint;
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         go.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.75f);
 
         yield return new WaitForSeconds(waitTime);
-    }
-
-
-    //Event to call when difficulty increases
-    public void IncreaseDifficulty(int newDiff) {
-        difficulty = newDiff;
-
-        newGenList();
     }
 }

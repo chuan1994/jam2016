@@ -6895,11 +6895,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22447180, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000012397766
+      value: -0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 22447180, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -28
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 22447180, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
       propertyPath: m_AnchorMin.y
@@ -6920,6 +6920,34 @@ Prefab:
     - target: {fileID: 170032, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11491602, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11491602, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11491602, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11491602, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11491602, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 22447180, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 22447180, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c8517e53406925f45a0b020b8f5c7491, type: 2}
