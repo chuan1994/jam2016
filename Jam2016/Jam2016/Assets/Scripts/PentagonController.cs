@@ -82,6 +82,7 @@ public class PentagonController : MonoBehaviour {
         }
 
         move = true;
+        Destroy(Ingredient.GetComponent<IngredientController>());
     }
 
     void OnEnable()
