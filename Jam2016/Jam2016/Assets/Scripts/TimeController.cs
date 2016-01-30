@@ -6,7 +6,7 @@ using System;
 public class TimeController : MonoBehaviour {
 
     [SerializeField]
-    float time_remaining;
+    public float time_remaining;
 
     Text textScript;
 
@@ -44,4 +44,6 @@ public class TimeController : MonoBehaviour {
 
 
     }
+
+
 }

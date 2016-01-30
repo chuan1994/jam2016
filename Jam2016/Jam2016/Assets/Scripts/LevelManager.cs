@@ -3,6 +3,11 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour {
 
+    [SerializeField]
+    GameObject conveyController;
+    [SerializeField]
+    GameObject timer;
+
     GameObject mixIngredient1;
     GameObject mixIngredient2;
 
@@ -34,6 +39,21 @@ public class LevelManager : MonoBehaviour {
             Time.timeScale = 0f;
         }*/
 	}
+
+    public void startLevel() {
+        StartCoroutine("initDelay");
+    }
+
+    IEnumerator initDelay()
+    {
+        yield return new WaitForSeconds(1.8f);
+        conveyController.GetComponent<ConveyController>().GameStart();
+        timer.GetComponent<TimeController>().time_remaining = 120;
+        timer.SetActive(true);
+    }
+
+
+
 
     private void ProcessStash(Vector3 stashPosition)
     {

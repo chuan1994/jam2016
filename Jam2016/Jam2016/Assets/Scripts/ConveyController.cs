@@ -88,9 +88,6 @@ public class ConveyController : MonoBehaviour {
     }
 
     IEnumerator Wrapper() {
-        //editted code - andy
-        yield return new WaitForSeconds(1.8f);
-        //---------------------
         while (produce) {
             yield return StartCoroutine("GenerateNext");
         }

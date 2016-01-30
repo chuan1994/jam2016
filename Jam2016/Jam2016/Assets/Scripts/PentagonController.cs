@@ -144,7 +144,6 @@ public class PentagonController : MonoBehaviour
     {
         GameObject g;
         g = (GameObject)Instantiate(newIngredient, new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-        Debug.Log(g);
         foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
             Destroy(tp.go);
