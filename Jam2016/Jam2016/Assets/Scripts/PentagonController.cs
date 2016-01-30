@@ -16,7 +16,7 @@ public class PentagonController : MonoBehaviour {
     [SerializeField]
     List<GameObject> OutIngre;
 
-    GameObject Ingredient;
+    public GameObject Ingredient;
     Vector3 OriginalPos;
 
     private bool move;
@@ -43,31 +43,39 @@ public class PentagonController : MonoBehaviour {
         } 
         else
         {
-            Destroy(Ingredient);
+            //Destroy(Ingredient);
         }
-
 
         if (IngreList.Count == 2)
         {
+            GameObject g;
             if (!move)
             {
-                Instantiate(OutIngre[0], new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-                for (int i = 0; i < 1; i++)
-                {
-                    IngreList.Remove(IngreList[i]);
-                }
+                g = (GameObject)Instantiate(OutIngre[0], new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+                IngreList = new List<GameObject>();
+                fireEvent(g);
             }
             
         }
 
     }
 
+    void fireEvent(GameObject g)
+    {
+        if (PentHandler != null)
+        {
+            PentHandler(g);
+        }
+    }
+
     void JarHandler(GameObject g)
     {
+        
         IngreList.Add(g);
         Ingredient = g;
-        move = true;
+        Debug.Log(Ingredient);
         OriginalPos = Ingredient.transform.position;
+        move = true;
     }
 
     void OnEnable()
