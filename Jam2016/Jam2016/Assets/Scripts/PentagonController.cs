@@ -18,7 +18,7 @@ public class PentagonController : MonoBehaviour
     public static event PentagonHandler PentHandler;
 
 
-    public float Speed;
+    public float Speed =10;
 
 
     public List<TargetPos> IngreList = new List<TargetPos>();
@@ -43,8 +43,8 @@ public class PentagonController : MonoBehaviour
         int reachedIng = 0;
         foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
-
-            if (tp.go.transform.position != tp.target)
+            float distance = Vector3.Distance(tp.go.transform.position, tp.target);
+            if (distance > 0.01f)
             {
                 float step = Speed * Time.deltaTime;
                 tp.go.transform.position = Vector3.MoveTowards(tp.go.transform.position, tp.target, step);
@@ -73,7 +73,7 @@ public class PentagonController : MonoBehaviour
             PentHandler(g);
         }
     }
-    int index = 0;
+    
     void JarHandler(GameObject g)
     {
 
@@ -81,28 +81,28 @@ public class PentagonController : MonoBehaviour
         {
             GameObject clonedIngredient;
 
-            if (g.GetComponent<BaseIngredientController>().id > 0 && g.GetComponent<BaseIngredientController>().id < 3)
+            if (g.GetComponent<BaseIngredientController>().id >= 0 && g.GetComponent<BaseIngredientController>().id < 3)
             {
-                clonedIngredient = Instantiate(g);
+                clonedIngredient = Instantiate(g, g.transform.position, g.transform.rotation)as GameObject;
 
             }
             else
             {
                 clonedIngredient = g;
             }
-            clonedIngredient = Instantiate(g);
-            clonedIngredient.name += index++;
             TargetPos tp = new TargetPos();
             tp.go = clonedIngredient;
+            tp.go.transform.rotation = Quaternion.Euler(10f, 0f, 0f);
+            tp.go.transform.localScale = new Vector3(0.3f, 0.3f, 0f);
 
             if (IngreList.Count == 0)
             {
-                tp.target = transform.position;
+                tp.target = new Vector3(-1.5f, 2.8f, -5f);
 
             }
             else
             {
-                tp.target = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
+                tp.target = new Vector3(1.5f, 2.8f, -5f);
             }
 
             tp.move = true;
@@ -141,7 +141,7 @@ public class PentagonController : MonoBehaviour
     {
         GameObject g;
         g = (GameObject)Instantiate(newIngredient, new Vector3(10, -2, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-
+        Debug.Log(g);
         foreach (TargetPos tp in new List<TargetPos>(IngreList))
         {
             Destroy(tp.go);

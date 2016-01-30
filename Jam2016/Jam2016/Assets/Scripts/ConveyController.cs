@@ -21,6 +21,9 @@ public class ConveyController : MonoBehaviour {
     bool produce;
 
     [SerializeField]
+    Vector3 spawnPoint;
+
+    [SerializeField]
     int difficulty;
 
 
@@ -97,7 +100,9 @@ public class ConveyController : MonoBehaviour {
 
         GameObject go = Instantiate(currentGen[pos]);
         go.GetComponent<BaseIngredientController>().conveyModeOn(difficulty);
-        go.transform.position = this.transform.position;
+        go.transform.position = spawnPoint;
+        go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        go.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.75f);
 
         yield return new WaitForSeconds(waitTime);
     }

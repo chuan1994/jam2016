@@ -8,7 +8,12 @@ public class BaseIngredientController : MonoBehaviour {
     [SerializeField]
     bool conveyMode;
     bool conveyMove;
+
+    [SerializeField]
     float speed;
+
+    [SerializeField]
+    Vector3 conveyTarget;
 
 	// Use this for initialization
 	void Awake () {
@@ -31,7 +36,7 @@ public class BaseIngredientController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (conveyMove) {
-            this.transform.position = Vector3.MoveTowards(this.transform.position ,new Vector3(10f, 10f, 0f), Time.deltaTime * 10);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, conveyTarget, Time.deltaTime * speed);
         }
 	}
 
