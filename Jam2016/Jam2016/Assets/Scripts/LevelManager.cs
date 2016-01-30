@@ -6,9 +6,7 @@ public class LevelManager : MonoBehaviour {
     GameObject mixIngredient1;
     GameObject mixIngredient2;
 
-    GameObject product;
-
-    string gameState;
+    public GameObject product;
 
     public delegate void disable();
     public static event disable disableScripts;
@@ -18,9 +16,14 @@ public class LevelManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        gameState = "mixing";
+        Subscribe();
 	}
-	
+
+    void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
 	// Update is called once per frame
 	void Update () {
 	
@@ -29,7 +32,7 @@ public class LevelManager : MonoBehaviour {
     private void ProcessStash(Vector3 stashPosition)
     {
         product.transform.position = stashPosition;
-        //product.GetComponent<ShelfIngredientController>().enabled = false;
+        disableFunction();
     }
 
     //Upon click of an area for product action
@@ -37,20 +40,20 @@ public class LevelManager : MonoBehaviour {
     {
         if (clickedObject.tag.Equals("trash"))
         {
-
+            Destroy(product);
         }
         else if (clickedObject.tag.Equals("box"))
         {
 
         }
+        disableFunction();
     }
 
     //Upon production from two ingredients
     private void ProcessProduct(GameObject product)
     {
         this.product = product;
-
-        gameState = "actionSelection";
+        enableFunction();
     }
 
     private void enableFunction()
@@ -73,11 +76,13 @@ public class LevelManager : MonoBehaviour {
     //event subscription and unsubscription
     private void Subscribe()
     {
-        //ShelfIngredientController.ShelfMouseDown += ProcessStash;
+        ShelfIngredientController.ShelfMouseDown += ProcessStash;
+        GeneralClickController.eventUponClick += ProcessClick;
     }
 
     private void Unsubscribe()
     {
-        //ShelfIngredientController.ShelfMouseDown -= ProcessStash;
+        ShelfIngredientController.ShelfMouseDown -= ProcessStash;
+        GeneralClickController.eventUponClick -= ProcessClick;
     }
 }

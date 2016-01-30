@@ -8,8 +8,15 @@ public class GeneralClickController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+        LevelManager.enableActions += EnableScript;
+        LevelManager.disableScripts += DisableScript;
 	}
+
+    void OnDestroy()
+    {
+        LevelManager.enableActions -= EnableScript;
+        LevelManager.disableScripts -= DisableScript;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -22,5 +29,15 @@ public class GeneralClickController : MonoBehaviour {
         {
             eventUponClick(this.gameObject);
         }
+    }
+
+    void EnableScript()
+    {
+        this.enabled = true;
+    }
+
+    void DisableScript()
+    {
+        this.enabled = false;
     }
 }
