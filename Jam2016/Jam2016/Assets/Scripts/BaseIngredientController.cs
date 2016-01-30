@@ -56,29 +56,35 @@ public class BaseIngredientController : MonoBehaviour {
     {
         if (!conveyMode)
         {
-            if (id > 2)
+            if (id > 2 || id == -1)
             {
                 if (gameObject.GetComponent<ShelfIngredientController>() != null)
                 {
                     Destroy(gameObject.GetComponent<ShelfIngredientController>());
                 }
             }
-            gameObject.AddComponent<IngredientController>();
+            if (id > -1)
+            {
+                gameObject.AddComponent<IngredientController>();
+            }
         }
         else {
             Destroy(gameObject.GetComponent<ConveyEvent>());
         }
     }
 
-    public void conveyModeOn(int difficulty) {
+    public void conveyModeOn(int difficulty)
+    {
         speed = difficulty;
         conveyMode = true;
         conveyMove = true;
-        if (GetComponent<ShelfIngredientController>() != null) {
+        if (GetComponent<ShelfIngredientController>() != null)
+        {
             Destroy(GetComponent<ShelfIngredientController>());
         }
 
-        if (GetComponent<IngredientController>() != null) {
+        if (GetComponent<IngredientController>() != null)
+        {
             Destroy(GetComponent<IngredientController>());
         }
     }
