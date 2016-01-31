@@ -49,8 +49,8 @@ public class CombinationLibrary {
         if (num2 < num1)
         {
             temp = num2;
-            num1 = num2;
-            num2 = temp;
+            num2 = num1;
+            num1 = temp;
         }
         foreach (KeyValuePair<int[], int> entry in combination)
         {
