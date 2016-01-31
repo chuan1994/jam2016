@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Rotator : MonoBehaviour {
 
-    public float speed = 0.1f;
+    public float speed = 200;
     void Update() {
-        transform.localRotation = Quaternion.Euler(0, -Time.time * speed, 0);
+		transform.localRotation = Quaternion.Euler(0, 0, -Time.time * speed);
     }
 }
