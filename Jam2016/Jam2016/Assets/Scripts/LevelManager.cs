@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
@@ -160,6 +161,12 @@ public class LevelManager : MonoBehaviour {
         if (enableIngredients != null) {
             enableIngredients();
         }
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     //event subscription and unsubscription
