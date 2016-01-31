@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
-    int SCORE;
+    public int SCORE;
 
     [SerializeField]
     GameObject conveyController;
@@ -147,17 +147,6 @@ public class LevelManager : MonoBehaviour {
         Time.timeScale = 0f;
         gameOverScreen.SetActive(true);
         GameObject.Find("Score").GetComponent<Text>().text = score+"";
-        //StartCoroutine(scoreUp());
-    }
-
-    IEnumerator scoreUp()
-    {
-        GameObject scoreText = GameObject.Find("Score");
-        for (int i = 0; i < SCORE + 1; i++)
-        {
-            scoreText.GetComponent<Text>().text = i + "";
-            yield return new WaitForSeconds(0.5f);
-        }
     }
 
     //event subscription and unsubscription
