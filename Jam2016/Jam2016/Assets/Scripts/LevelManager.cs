@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
-    int SCORE;
+    public int SCORE;
 
     [SerializeField]
     GameObject conveyController;
@@ -72,8 +72,15 @@ public class LevelManager : MonoBehaviour {
 
     private void ProcessStash(Vector3 stashPosition)
     {
-        product.transform.position = stashPosition;
         enableIngredient();
+        if (product.GetComponent<BaseIngredientController>() != null)
+        {
+            product.transform.position = stashPosition;
+        }
+
+        else {
+            Destroy(product);
+        }
     }
 
     //Upon click of an area for product action
@@ -147,16 +154,11 @@ public class LevelManager : MonoBehaviour {
         Time.timeScale = 0f;
         gameOverScreen.SetActive(true);
         GameObject.Find("Score").GetComponent<Text>().text = score+"";
-        //StartCoroutine(scoreUp());
     }
 
-    IEnumerator scoreUp()
-    {
-        GameObject scoreText = GameObject.Find("Score");
-        for (int i = 0; i < SCORE + 1; i++)
-        {
-            scoreText.GetComponent<Text>().text = i + "";
-            yield return new WaitForSeconds(0.5f);
+    void deathRestart() {
+        if (enableIngredients != null) {
+            enableIngredients();
         }
     }
 
@@ -169,6 +171,7 @@ public class LevelManager : MonoBehaviour {
         ConveyEvent.mousePressedEvent += TargetClicked;
         BaseIngredientController.reached += targetReached;
         TimeController.gameOverHandler += gameOver;
+        DeathController.sendEvent += deathRestart;
     }
 
     private void Unsubscribe()
@@ -179,5 +182,7 @@ public class LevelManager : MonoBehaviour {
         ConveyEvent.mousePressedEvent -= TargetClicked;
         BaseIngredientController.reached -= targetReached;
         TimeController.gameOverHandler -= gameOver;
+        DeathController.sendEvent += deathRestart;
+
     }
 }

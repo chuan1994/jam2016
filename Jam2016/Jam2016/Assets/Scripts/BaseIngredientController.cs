@@ -25,6 +25,7 @@ public class BaseIngredientController : MonoBehaviour {
         conveyMode = false;
         LevelManager.enableActions += createActionScript;
         LevelManager.enableIngredients += createIngredientScript;
+        PentagonController.disableAll += disableAll;
 	}
 
     void OnDestroy()
@@ -32,6 +33,8 @@ public class BaseIngredientController : MonoBehaviour {
         
         LevelManager.enableActions -= createActionScript;
         LevelManager.enableIngredients -= createIngredientScript;
+        PentagonController.disableAll -= disableAll;
+
     }
 
     void Start()
@@ -86,6 +89,19 @@ public class BaseIngredientController : MonoBehaviour {
         }
         else {
             Destroy(gameObject.GetComponent<ConveyEvent>());
+        }
+    }
+
+    void disableAll() {
+        Debug.Log("here");
+        if (GetComponent<ShelfIngredientController>() != null)
+        {
+            Destroy(GetComponent<ShelfIngredientController>());
+        }
+
+        if (GetComponent<IngredientController>() != null)
+        {
+            Destroy(GetComponent<IngredientController>());
         }
     }
 

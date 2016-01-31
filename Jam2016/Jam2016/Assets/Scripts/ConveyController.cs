@@ -26,7 +26,11 @@ public class ConveyController : MonoBehaviour {
     [SerializeField]
     int difficulty;
 
+    bool notPlaying;
 
+    void Start() {
+        notPlaying = true;
+    }
 	//Changed to designate when to start -Andy
 	public void GameStart () {
         newGenList();
@@ -99,8 +103,13 @@ public class ConveyController : MonoBehaviour {
     }
 
     IEnumerator Wrapper() {
-        while (produce) {
-            yield return StartCoroutine("GenerateNext");
+        if (notPlaying)
+        {
+            notPlaying = false;
+            while (produce)
+            {
+                yield return StartCoroutine("GenerateNext");
+            }
         }
     }
 

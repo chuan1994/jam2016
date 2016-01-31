@@ -16,6 +16,10 @@ public class PentagonController : MonoBehaviour
     public delegate void PentagonHandler(GameObject g);
     public static event PentagonHandler PentHandler;
 
+    public delegate void DisableAll();
+    public static event DisableAll disableAll;
+
+    public Sprite deathSprite;
 
     public float Speed =10;
 
@@ -83,6 +87,15 @@ public class PentagonController : MonoBehaviour
                                 OutIndex = i;
                         }
                         JoinObject(OutIngre[OutIndex]);
+                    }
+                    else {
+                        GameObject g = new GameObject("death");
+                        g.AddComponent<SpriteRenderer>();
+                        g.GetComponent<SpriteRenderer>().sprite = deathSprite;
+                        g.AddComponent<DeathController>().enabled = true;
+                        Destroy(g);
+
+                        JoinObject(g);
                     }
                     SendObjects.Clear();
                     reachedCount = 0;
@@ -169,7 +182,16 @@ public class PentagonController : MonoBehaviour
         }
 
         IngreList.Clear();
-        fireEvent(g);
+        if (g.GetComponent<BaseIngredientController>() != null)
+        {
+            fireEvent(g);
+        }
+        else {
+            g.GetComponent<DeathController>().enabled = true;
+            if (disableAll != null)
+            {
+                disableAll();
+            }
+        }
     }
-
 }
