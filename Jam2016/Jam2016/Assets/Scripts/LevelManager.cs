@@ -72,8 +72,15 @@ public class LevelManager : MonoBehaviour {
 
     private void ProcessStash(Vector3 stashPosition)
     {
-        product.transform.position = stashPosition;
         enableIngredient();
+        if (product.GetComponent<BaseIngredientController>() != null)
+        {
+            product.transform.position = stashPosition;
+        }
+
+        else {
+            Destroy(product);
+        }
     }
 
     //Upon click of an area for product action
@@ -149,6 +156,12 @@ public class LevelManager : MonoBehaviour {
         GameObject.Find("Score").GetComponent<Text>().text = score+"";
     }
 
+    void deathRestart() {
+        if (enableIngredients != null) {
+            enableIngredients();
+        }
+    }
+
     //event subscription and unsubscription
     private void Subscribe()
     {
@@ -158,6 +171,7 @@ public class LevelManager : MonoBehaviour {
         ConveyEvent.mousePressedEvent += TargetClicked;
         BaseIngredientController.reached += targetReached;
         TimeController.gameOverHandler += gameOver;
+        DeathController.sendEvent += deathRestart;
     }
 
     private void Unsubscribe()
@@ -168,5 +182,7 @@ public class LevelManager : MonoBehaviour {
         ConveyEvent.mousePressedEvent -= TargetClicked;
         BaseIngredientController.reached -= targetReached;
         TimeController.gameOverHandler -= gameOver;
+        DeathController.sendEvent += deathRestart;
+
     }
 }

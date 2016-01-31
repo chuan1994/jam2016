@@ -33,9 +33,5 @@ public class ShelfIngredientController : MonoBehaviour {
     {
         Destroy(gameObject);
     }
-    
-
-
-
 
 }
