@@ -29,6 +29,7 @@ public class BaseIngredientController : MonoBehaviour {
 
     void OnDestroy()
     {
+        
         LevelManager.enableActions -= createActionScript;
         LevelManager.enableIngredients -= createIngredientScript;
     }
