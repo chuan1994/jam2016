@@ -3,9 +3,11 @@ using System.Collections;
 
 public class MainMenuController : MonoBehaviour {
 
+    AudioSource audioSource;
+
 	// Use this for initialization
 	void Start () {
-	
+        audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -32,5 +34,9 @@ public class MainMenuController : MonoBehaviour {
     {
         gameObject.GetComponent<CanvasGroup>().alpha = 1f;
         gameObject.SetActive(true);
+    }
+    public void PlayAudio()
+    {
+        audioSource.Play();
     }
 }

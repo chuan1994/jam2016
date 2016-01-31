@@ -12,7 +12,7 @@ public class TimeController : MonoBehaviour {
     [SerializeField]
     public float time_remaining;
     public bool gameOver;
-
+    bool start;
     int score;
     Text timeTextScript;
     Text scoreTextScript;
@@ -33,30 +33,34 @@ public class TimeController : MonoBehaviour {
         if (gameOver) return;
         string answer;
         time_remaining -= Time.deltaTime;
-        if (time_remaining > 0)
+        if (start)
         {
-            TimeSpan t = TimeSpan.FromSeconds(time_remaining);
-            answer = string.Format("{0:D2}:{1:D2}",
-                            t.Minutes,
-                            t.Seconds);
-        }
-        else
-        {
-            time_remaining = 0;
-            answer = "00:00";
-            if (gameOverHandler != null)
+            if (time_remaining > 0)
             {
-                gameOverHandler(score);
+                TimeSpan t = TimeSpan.FromSeconds(time_remaining);
+                answer = string.Format("{0:D2}:{1:D2}",
+                                t.Minutes,
+                                t.Seconds);
+            }
+            else
+            {
+                Debug.Log("hi");
+                time_remaining = 0;
+                answer = "00:00";
+                if (gameOverHandler != null)
+                {
+                    gameOverHandler(score);
+                }
+
+                gameOver = true;
             }
 
-            gameOver = true;
-        }
 
-
-        if (timeTextScript != null)
-        {
-            timeTextScript.text = answer;
-            scoreTextScript.text = "Score: " + score.ToString();
+            if (timeTextScript != null)
+            {
+                timeTextScript.text = answer;
+                scoreTextScript.text = "Score: " + score.ToString();
+            }
         }
 
     }
@@ -68,5 +72,10 @@ public class TimeController : MonoBehaviour {
 
     public void badMove() {
         time_remaining = time_remaining - 10;
+    }
+
+    public void setTime(float tim) {
+        time_remaining = tim;
+        start = true;
     }
 }
