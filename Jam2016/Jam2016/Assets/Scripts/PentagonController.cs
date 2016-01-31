@@ -20,6 +20,7 @@ public class PentagonController : MonoBehaviour
     public float Speed =10;
 
     int reachedCount;
+    int OutIndex;
 
     public List<TargetPos> IngreList = new List<TargetPos>();
     List<GameObject> SendObjects = new List<GameObject>();
@@ -74,10 +75,14 @@ public class PentagonController : MonoBehaviour
 
                 if (reachedCount == 2) {
                     int OutputID = CombinationCheck(IngreList);
-                    Debug.Log(OutputID);
                     if (OutputID != 404)
                     {
-                        JoinObject(OutIngre[OutputID - 3]);
+                        for (int i = 0; i < OutIngre.Count; i++)
+                        {
+                            if (OutputID == OutIngre[i].GetComponent<BaseIngredientController>().id)
+                                OutIndex = i;
+                        }
+                        JoinObject(OutIngre[OutIndex]);
                     }
                     SendObjects.Clear();
                     reachedCount = 0;
