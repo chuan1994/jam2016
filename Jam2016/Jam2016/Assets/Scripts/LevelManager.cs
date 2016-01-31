@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class LevelManager : MonoBehaviour {
     public delegate void enable();
     public static event enable enableActions;
     public static event enable enableIngredients;
+
+    public GameObject gameOverScreen;
 
     void Awake()
     {
@@ -50,7 +53,7 @@ public class LevelManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(1.8f);
         conveyController.GetComponent<ConveyController>().GameStart();
-        timer.GetComponent<TimeController>().time_remaining = 120;
+        timer.GetComponent<TimeController>().setTime(120);
         timer.GetComponent<TimeController>().gameOver = false;
         timer.SetActive(true);
         while (timer.activeSelf) {
@@ -139,6 +142,24 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    void gameOver(int score)
+    {
+        Time.timeScale = 0f;
+        gameOverScreen.SetActive(true);
+        GameObject.Find("Score").GetComponent<Text>().text = score+"";
+        //StartCoroutine(scoreUp());
+    }
+
+    IEnumerator scoreUp()
+    {
+        GameObject scoreText = GameObject.Find("Score");
+        for (int i = 0; i < SCORE + 1; i++)
+        {
+            scoreText.GetComponent<Text>().text = i + "";
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
     //event subscription and unsubscription
     private void Subscribe()
     {
@@ -147,6 +168,7 @@ public class LevelManager : MonoBehaviour {
         GeneralClickController.eventUponClick += ProcessClick;
         ConveyEvent.mousePressedEvent += TargetClicked;
         BaseIngredientController.reached += targetReached;
+        TimeController.gameOverHandler += gameOver;
     }
 
     private void Unsubscribe()
@@ -156,6 +178,6 @@ public class LevelManager : MonoBehaviour {
         PentagonController.PentHandler -= ProcessProduct;
         ConveyEvent.mousePressedEvent -= TargetClicked;
         BaseIngredientController.reached -= targetReached;
-
+        TimeController.gameOverHandler -= gameOver;
     }
 }
